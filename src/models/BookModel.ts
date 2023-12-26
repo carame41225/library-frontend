@@ -5,7 +5,7 @@ class BookModel {
     description: string;
     copies?: number;
     copiesAvailable?: number;
-    catrgory?: string;
+    category?: string;
     img?: string;
 
     constructor(id: number, title: string, author: string, description: string,
@@ -16,7 +16,7 @@ class BookModel {
         this.description = description;
         this.copies = copies;
         this.copiesAvailable = copiesAvailable;
-        this.catrgory = category;
+        this.category = category;
         this.img = img;
 
     }
