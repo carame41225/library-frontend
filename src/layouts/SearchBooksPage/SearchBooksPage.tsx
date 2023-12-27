@@ -15,6 +15,7 @@ export const SearchBooksPage = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [search, setSearch] = useState("");
     const [searchUrl, setSearchUrl] = useState("");
+    const [categorySelection, setCategorySelection] = useState('Book category');
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -88,6 +89,20 @@ export const SearchBooksPage = () => {
         }
     }
 
+    const cateogryField = (value: string) => {
+        if (
+            value.toLowerCase() === 'fe' ||
+            value.toLowerCase() === 'be' ||
+            value.toLowerCase() === 'data' ||
+            value.toLowerCase() === 'devops') {
+            setCategorySelection(value);
+            setSearchUrl(`/search/findByCategory?category=${value}&page=0&size=${booksPerPage}`);
+        } else {
+            setCategorySelection('All');
+            setSearchUrl(`?page=0&size=${booksPerPage}`);
+        }
+    }
+
     const indexOfLastBook: number = currentPage * booksPerPage;
     const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
     let lastItem = booksPerPage * currentPage <= totalAmountOfBooks ? booksPerPage * currentPage : totalAmountOfBooks;
@@ -114,30 +129,30 @@ export const SearchBooksPage = () => {
                             <div className="dropdown">
                                 <button className="btn btn-secondary dropdown-toogle" type="button"
                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Category
+                                    {categorySelection}
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li>
+                                    <li onClick={() => cateogryField('All')}>
                                         <a className="dropdown-item" href="#">
                                             All
                                         </a>
                                     </li>
-                                    <li>
+                                    <li onClick={() => cateogryField('FE')}>
                                         <a className="dropdown-item" href="#">
                                             Front End
                                         </a>
                                     </li>
-                                    <li>
+                                    <li onClick={() => cateogryField('BE')}>
                                         <a className="dropdown-item" href="#">
                                             Back end
                                         </a>
                                     </li>
-                                    <li>
+                                    <li onClick={() => cateogryField('Data')}>
                                         <a className="dropdown-item" href="#">
                                             Data
                                         </a>
                                     </li>
-                                    <li>
+                                    <li onClick={() => cateogryField('DevOps')}>
                                         <a className="dropdown-item" href="#">
                                             DevOps
                                         </a>
@@ -146,15 +161,26 @@ export const SearchBooksPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-3">
-                        <h5>Number of results: ({totalAmountOfBooks})</h5>
-                    </div>
-                    <p>
-                        {indexOfFirstBook} to 5 of {totalAmountOfBooks} items:
-                    </p>
-                    {books.map(book => (
-                        <SearchBook book={book} key={book.id} />
-                    ))}
+                    {totalAmountOfBooks > 0 ?
+                        <>
+                            <div className="mt-3">
+                                <h5>Number of results: ({totalAmountOfBooks})</h5>
+                            </div>
+                            <p>
+                                {indexOfFirstBook} to 5 of {totalAmountOfBooks} items:
+                            </p>
+                            {books.map(book => (
+                                <SearchBook book={book} key={book.id} />
+                            ))}
+                        </>
+                        :
+                        <div className="m-5">
+                            <h3>Can't find what you are lokking for?</h3>
+                            <a type="button" className="btn main-color btn-md px-4 me-md-2 fw-bold text-white" href="#">
+                                Library Services
+                            </a>
+                        </div>
+                    }
                     {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
                     }
                 </div>
