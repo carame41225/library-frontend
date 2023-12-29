@@ -5,7 +5,7 @@ import { Footer } from "./layouts/NavbarAndFooter/Footer";
 import { Homepage } from "./layouts/HomePage/HomePage";
 import { SearchBooksPage } from "./layouts/SearchBooksPage/SearchBooksPage";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckPage";
+import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckOutPage";
 
 function App() {
   return (
